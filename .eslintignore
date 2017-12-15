@@ -1,0 +1,7 @@
+**/*.min.js
+**/check.js
+data/*.js
+config/*.js
+node_modules/**/*.*
+/js-yaml/
+loader.js

@@ -1,0 +1,17 @@
+.hotels-list{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-around;
+   
+    // &:after {
+    //     content: "";
+    //     flex-grow: 1;
+    //     flex-shrink: .5;
+    //     background-color: red;
+    //   }
+
+    &__hotel {
+        
+    }
+}

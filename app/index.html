@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Hotels</title>
+	<meta name="description" content="">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+
+	<meta name="theme-color" content="#000">
+	<meta name="msapplication-navbutton-color" content="#000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+
+	<link rel="stylesheet" href="css/main.min.css">
+
+</head>
+
+<body>
+<template id="hotel-template" style="display: none">
+	<article class="hotels-list__hotel hotel">
+		<span class="hotel__stars"></span>
+		<h3 class="hotel__name"></h3>
+		<span class="hotel__rating"></span>
+		<span class="hotel__favourite"></span>
+		<a href="#" class="hotel__price">
+			<span class="hotel__price-value"></span>
+		</a>
+	</article>
+	
+</template>
+
+<header class="header"></header>
+
+<div class="container"></div>
+
+<section class="welcome">
+	<form id="searchform" class="searchform">
+		<div class="searchform__input-wrapper">
+			<label for="searchform-guests-number" class="searchform__label">Гости:</label>
+			<input type="number" id="searchform-guests-number" class=" searchform__guests searchform__guests--number"
+			  name="guests">
+		</div>
+
+		<div class="searchform__input-wrapper">
+			<label for="searchform-guests-rooms" class="searchform__label">Комнаты:</label>
+			<input type="number" id="searchform-guests-rooms" class=" searchform__guests searchform__guests--rooms"
+			  name="rooms">
+		</div>
+
+		<input type="submit" class="searchform__button button" value="Найти">
+	</form>
+</section>
+
+<section class="hotels-list"></section>
+
+<script src="data/hotels.js"></script>
+<script src="js/scripts.min.js"></script>
+</body>
+
+</html>
