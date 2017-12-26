@@ -1,6 +1,6 @@
 .button {
 	width: 150px;
-	height: 40px;
+	min-height: 40px;
 	text-shadow: -1px -1px 0 #000,
 	1px -1px 0 #000,
 	-1px 1px 0 #000,
@@ -15,10 +15,20 @@
 	font-weight: bold;
 	font-size: 17px;
 	border: 2px solid white;
+	line-height: 1.5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 	&:hover {
-		background-color: darken($skycolor, 5%);
+		background-color: darken($skycolor, 15%);
 	}
 	&:focus {
-		background-color: darken($skycolor, 15%);
+		background-color: darken($skycolor, 25%);
+	}
+
+	&__text {
+		pointer-events: none;
+		font-size: 15px;
 	}
 }

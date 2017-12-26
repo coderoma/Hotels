@@ -1,0 +1,15 @@
+.filters {
+    margin: auto auto;
+    display: flex;
+    max-width: 800px;
+    justify-content: space-around;
+    margin-bottom: 15px;
+
+    &__button {
+
+    }
+
+    &--selected {
+        background-color: darken($skycolor, 25%);
+    }
+}

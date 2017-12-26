@@ -1,26 +1,63 @@
 'use strict';
 
 var container = document.querySelector( '.hotels-list' );
-var loadedData = null;
-var xhr = new XMLHttpRequest();
+var activeFilter = 'filter-all';
+var hotels = [];
+
+var filters = document.querySelectorAll( '.filters__button' );
+for ( var i = 0; i < filters.length; i++ ) {
+  filters[ i ].onclick = function( evt ) {
+    var clickedElementID = evt.target.id;
+    setActiveFilter(clickedElementID);
+  };
+}
+
+getHotels();
+
+
+/**
+ * @param {Array.<Object>} hotels
+ */
+function renderHotels( hotels ) {
+  hotels.forEach( function( hotel ) {
+    var element = getElementFromTemplate( hotel );
+    container.appendChild( element );
+  } );
+}
+
+/**
+ *
+ * @param {string} id 
+ */
+function setActiveFilter(id) {
+  if (activeFilter === id) {
+    return;
+  }
+
+  document.querySelector('#' + activeFilter).classList.remove('filters--selected');
+  document.querySelector('#' + id).classList.add('filters--selected');
+
+  var filteredHotels = hotels.slice(0);
+  renderHotels(filteredHotels);
+}
+
 
 /**
  * @param {string} method
  * @param {string} URL
  * @param {boolean} async
  */
-xhr.open( 'GET', '../data/hotels.json' )
-xhr.timeout = 10000;
-xhr.onload = function( evt ) {
-  console.log(JSON.parse(evt.srcElement.response));
-};
-xhr.send();
-
-
-// hotels.forEach( function( hotel ) {
-//   var element = getElementFromTemplate( hotel );
-//   container.appendChild( element );
-// } );
+function getHotels() {
+  var xhr = new XMLHttpRequest();
+  xhr.open( 'GET', '../data/hotels.json' );
+  xhr.timeout = 10000;
+  xhr.onload = function( evt ) {
+    var rawData = evt.target.response;
+    var loadedHotels = JSON.parse( rawData );
+    renderHotels( loadedHotels );
+  };
+  xhr.send();
+}
 
 
 /**
@@ -41,7 +78,7 @@ function getElementFromTemplate( data ) {
   element.querySelector( '.hotel__name' ).textContent = data.name;
   element.querySelector( '.hotel__price-value' ).textContent = data.price;
 
-  data.rating ? rating.textContent = data.rating : rating.style.display = "none";
+  data.rating ? rating.textContent = data.rating : rating.style.display = 'none';
 
   // prepare image
   var backgroundImage = new Image(); //create image
