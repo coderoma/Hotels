@@ -1,5 +1,18 @@
 var container = document.querySelector( '.hotels-list' );
 
+
+var loadedData = null;
+
+var xhr = new XMLHttpRequest();
+
+/**
+ * @param {string} method
+ * @param {string} URL
+ * @param {boolean} async
+ */
+xhr.open('GET', 'hotels.json', false)
+
+
 hotels.forEach( function( hotel ) {
 	var element = getElementFromTemplate( hotel );
 	container.appendChild( element );
