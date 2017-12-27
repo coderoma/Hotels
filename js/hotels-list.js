@@ -8,7 +8,7 @@ var filters = document.querySelectorAll( '.filters__button' );
 for ( var i = 0; i < filters.length; i++ ) {
   filters[ i ].onclick = function( evt ) {
     var clickedElementID = evt.target.id;
-    setActiveFilter(clickedElementID);
+    setActiveFilter( clickedElementID );
   };
 }
 
@@ -19,6 +19,7 @@ getHotels();
  * @param {Array.<Object>} hotels
  */
 function renderHotels( hotels ) {
+  container.innerHTML = '';
   hotels.forEach( function( hotel ) {
     var element = getElementFromTemplate( hotel );
     container.appendChild( element );
@@ -27,18 +28,30 @@ function renderHotels( hotels ) {
 
 /**
  *
- * @param {string} id 
+ * @param {string} id
  */
-function setActiveFilter(id) {
-  if (activeFilter === id) {
+function setActiveFilter( id ) {
+  if ( activeFilter === id ) {
     return;
   }
 
-  document.querySelector('#' + activeFilter).classList.remove('filters--selected');
-  document.querySelector('#' + id).classList.add('filters--selected');
+  document.querySelector( '#' + activeFilter ).classList.remove( 'filters--selected' );
+  document.querySelector( '#' + id ).classList.add( 'filters--selected' );
+  activeFilter = id;
 
-  var filteredHotels = hotels.slice(0);
-  renderHotels(filteredHotels);
+  var filteredHotels = hotels.slice( 0 );
+  switch ( activeFilter ) {
+    case 'filter-expensive':
+      filteredHotels = filteredHotels.sort( function( a, b ) {
+        return b.price - a.price;
+      } );
+      break;
+    case 'filter-2stars':
+      break;
+  }
+
+  console.log(filteredHotels);
+  renderHotels( filteredHotels );
 }
 
 
@@ -54,6 +67,7 @@ function getHotels() {
   xhr.onload = function( evt ) {
     var rawData = evt.target.response;
     var loadedHotels = JSON.parse( rawData );
+    hotels = loadedHotels;
     renderHotels( loadedHotels );
   };
   xhr.send();
