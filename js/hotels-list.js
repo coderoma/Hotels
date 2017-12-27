@@ -20,10 +20,15 @@ getHotels();
  */
 function renderHotels( hotels ) {
   container.innerHTML = '';
+  var fragment = document.createDocumentFragment();
+
   hotels.forEach( function( hotel ) {
     var element = getElementFromTemplate( hotel );
-    container.appendChild( element );
+
+    fragment.appendChild( element );
   } );
+
+  container.appendChild( fragment );
 }
 
 /**
@@ -50,7 +55,7 @@ function setActiveFilter( id ) {
       break;
   }
 
-  console.log(filteredHotels);
+  console.log( filteredHotels );
   renderHotels( filteredHotels );
 }
 
