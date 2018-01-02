@@ -1,0 +1,22 @@
+.footer {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5;
+  background-clip: content-box;
+  background-image: url(../img/background.jpg);
+  background-position: 8% 100%;
+  
+  &__text {
+    pointer-events: none;
+    font-size: 17px;
+		color: white;
+		font-weight: Bold;
+		text-shadow: -1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+  }
+}

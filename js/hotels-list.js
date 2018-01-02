@@ -3,6 +3,10 @@
 var container = document.querySelector( '.hotels-list' );
 var activeFilter = 'filter-all';
 var hotels = [];
+var filteredHotels = [];
+var currentPage = 0;
+var PAGE_SIZE = 12;
+
 
 var filters = document.querySelectorAll( '.filters__button' );
 for ( var i = 0; i < filters.length; i++ ) {
@@ -11,18 +15,43 @@ for ( var i = 0; i < filters.length; i++ ) {
     setActiveFilter( clickedElementID );
   };
 }
+var scrollTimeout;
+
+window.addEventListener( 'scroll', function( evt ) {
+  clearTimeout( scrollTimeout );
+  scrollTimeout = setTimeout( function() {
+    console.log( 'scrollevent' );
+    var footerCoordinates = document.querySelector( 'footer' ).getBoundingClientRect();
+    var viewportSize = window.innerHeight;
+
+    if ( footerCoordinates.bottom - window.innerHeight <= footerCoordinates.height ) {
+      if ( currentPage < Math.ceil( filteredHotels.length / PAGE_SIZE ) ) {
+        renderHotels( filteredHotels, ++currentPage );
+      }
+    }
+  } )
+
+} );
 
 getHotels();
 
 
 /**
  * @param {Array.<Object>} hotels
+ * @param {number} pageNumber
+ * @param {boolean=} replace 
  */
-function renderHotels( hotels ) {
-  container.innerHTML = '';
+function renderHotels( hotelsToRender, pageNumber, replace ) {
+  if ( replace ) {
+    container.innerHTML = '';
+  }
   var fragment = document.createDocumentFragment();
 
-  hotels.forEach( function( hotel ) {
+  var from = pageNumber * PAGE_SIZE;
+  var to = from + PAGE_SIZE;
+  var pageHotels = hotelsToRender.slice( from, to );
+
+  pageHotels.forEach( function( hotel ) {
     var element = getElementFromTemplate( hotel );
 
     fragment.appendChild( element );
@@ -44,7 +73,7 @@ function setActiveFilter( id ) {
   document.querySelector( '#' + id ).classList.add( 'filters--selected' );
   activeFilter = id;
 
-  var filteredHotels = hotels.slice( 0 );
+  filteredHotels = hotels.slice( 0 );
   switch ( activeFilter ) {
     case 'filter-expensive':
       filteredHotels = filteredHotels.sort( function( a, b ) {
@@ -53,10 +82,11 @@ function setActiveFilter( id ) {
       break;
     case 'filter-2stars':
       break;
+    case 'filter-all':
+      break;
   }
 
-  console.log( filteredHotels );
-  renderHotels( filteredHotels );
+  renderHotels( filteredHotels, 0, true );
 }
 
 
@@ -73,7 +103,7 @@ function getHotels() {
     var rawData = evt.target.response;
     var loadedHotels = JSON.parse( rawData );
     hotels = loadedHotels;
-    renderHotels( loadedHotels );
+    renderHotels( hotels, 0 );
   };
   xhr.send();
 }
