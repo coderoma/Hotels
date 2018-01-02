@@ -8,13 +8,15 @@ var currentPage = 0;
 var PAGE_SIZE = 12;
 
 
-var filters = document.querySelectorAll( '.filters__button' );
-for ( var i = 0; i < filters.length; i++ ) {
-  filters[ i ].onclick = function( evt ) {
-    var clickedElementID = evt.target.id;
-    setActiveFilter( clickedElementID );
-  };
-}
+var filters = document.querySelector( '.filters' );
+
+filters.addEventListener('click', function(evt) {
+  var clickedElement = evt.target;
+  if (clickedElement.classList.contains('filters__button')) {
+    setActiveFilter(clickedElement.id);
+  }
+});
+
 var scrollTimeout;
 
 window.addEventListener( 'scroll', function( evt ) {
@@ -29,7 +31,7 @@ window.addEventListener( 'scroll', function( evt ) {
         renderHotels( filteredHotels, ++currentPage );
       }
     }
-  } )
+  }, 100 );
 
 } );
 
