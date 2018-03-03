@@ -11,6 +11,7 @@
 @import "hotel";
 @import "filters";
 @import "footer";
+@import "gallery";
 
 html {
     box-sizing: border-box;
@@ -77,6 +78,10 @@ body {
 	min-width: 320px;
 	padding: 0 30px;
 	margin: 0 auto;
+}
+
+.hidden {
+	display: none;
 }
 
 @import "settings/media"; // Всегда в конце
