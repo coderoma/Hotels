@@ -10,21 +10,19 @@ var PAGE_SIZE = 12;
 
 var filters = document.querySelector( '.filters' );
 
-filters.addEventListener('click', function(evt) {
+filters.addEventListener( 'click', function ( evt ) {
   var clickedElement = evt.target;
-  if (clickedElement.classList.contains('filters__button')) {
-    setActiveFilter(clickedElement.id);
+  if ( clickedElement.classList.contains( 'filters__button' ) ) {
+    setActiveFilter( clickedElement.id );
   }
-});
+} );
 
 var scrollTimeout;
-
-window.addEventListener( 'scroll', function( evt ) {
+window.addEventListener( 'scroll', function () {
   clearTimeout( scrollTimeout );
-  scrollTimeout = setTimeout( function() {
-    console.log( 'scrollevent' );
+  scrollTimeout = setTimeout( function () {
     var footerCoordinates = document.querySelector( 'footer' ).getBoundingClientRect();
-    var viewportSize = window.innerHeight;
+    // var viewportSize = window.innerHeight;
 
     if ( footerCoordinates.bottom - window.innerHeight <= footerCoordinates.height ) {
       if ( currentPage < Math.ceil( filteredHotels.length / PAGE_SIZE ) ) {
@@ -41,9 +39,9 @@ getHotels();
 /**
  * @param {Array.<Object>} hotels
  * @param {number} pageNumber
- * @param {boolean=} replace 
+ * @param {boolean=} replace
  */
-function renderHotels( hotelsToRender, pageNumber, replace ) {
+function renderHotels ( hotelsToRender, pageNumber, replace ) {
   if ( replace ) {
     container.innerHTML = '';
   }
@@ -53,8 +51,14 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
   var to = from + PAGE_SIZE;
   var pageHotels = hotelsToRender.slice( from, to );
 
-  pageHotels.forEach( function( hotel ) {
+  pageHotels.forEach( function ( hotel ) {
     var element = getElementFromTemplate( hotel );
+
+    element.addEventListener( 'click', function ( evt ) {
+      if ( evt.target.classList.contains( 'hotel' ) ) {
+        document.querySelector( '.gallery-overlay' ).classList.remove( 'hidden' );
+      }
+    } );
 
     fragment.appendChild( element );
   } );
@@ -66,7 +70,7 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
  *
  * @param {string} id
  */
-function setActiveFilter( id ) {
+function setActiveFilter ( id ) {
   if ( activeFilter === id ) {
     return;
   }
@@ -75,10 +79,9 @@ function setActiveFilter( id ) {
   document.querySelector( '#' + id ).classList.add( 'filters--selected' );
   activeFilter = id;
 
-  filteredHotels = hotels.slice( 0 );
   switch ( activeFilter ) {
     case 'filter-expensive':
-      filteredHotels = filteredHotels.sort( function( a, b ) {
+      filteredHotels = filteredHotels.sort( function ( a, b ) {
         return b.price - a.price;
       } );
       break;
@@ -97,15 +100,16 @@ function setActiveFilter( id ) {
  * @param {string} URL
  * @param {boolean} async
  */
-function getHotels() {
+function getHotels () {
   var xhr = new XMLHttpRequest();
   xhr.open( 'GET', '../data/hotels.json' );
   xhr.timeout = 10000;
-  xhr.onload = function( evt ) {
+  xhr.onload = function ( evt ) {
     var rawData = evt.target.response;
     var loadedHotels = JSON.parse( rawData );
     hotels = loadedHotels;
-    renderHotels( hotels, 0 );
+    filteredHotels = hotels.slice( 0 );
+    renderHotels( filteredHotels, 0 );
   };
   xhr.send();
 }
@@ -115,7 +119,7 @@ function getHotels() {
  * @param {Object} data
  * @return {Element}
  */
-function getElementFromTemplate( data ) {
+function getElementFromTemplate ( data ) {
   var template = document.querySelector( '#hotel-template' );
   var IMAGE_TIMEOUT = 10000;
 
@@ -129,23 +133,27 @@ function getElementFromTemplate( data ) {
   element.querySelector( '.hotel__name' ).textContent = data.name;
   element.querySelector( '.hotel__price-value' ).textContent = data.price;
 
-  data.rating ? rating.textContent = data.rating : rating.style.display = 'none';
+  if ( data.rating ) {
+    rating.textContent = data.rating;
+  } else {
+    rating.style.display = 'none';
+  }
 
   // prepare image
   var backgroundImage = new Image(); //create image
 
-  var imageLoadTimeout = setTimeout( function() { //fallback if image is cannot load
+  var imageLoadTimeout = setTimeout( function () { //fallback if image is cannot load
     backgroundImage.src = '';
     element.classList.add( 'hotel--nophoto' ); // give element class with default background-image
   }, IMAGE_TIMEOUT );
 
-  // load and erorr handlers we set before changing .src attribute
+  // load and error handlers we set before changing .src attribute
 
-  backgroundImage.onload = function() {
+  backgroundImage.onload = function () {
     clearTimeout( imageLoadTimeout );
     element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
   };
-  backgroundImage.onerror = function() {
+  backgroundImage.onerror = function () {
     element.classList.add( 'hotel--nophoto' );
   };
 
