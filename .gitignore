@@ -5,4 +5,5 @@
 /**/Thumbs.db
 /.vscode/
 /.idea/
-scripts.min.js
+/scripts.min.js
+app/js/scripts.min.js
