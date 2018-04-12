@@ -11,7 +11,6 @@ extends:
   "eslint:recommended"
 
 plugins: [
-  "requirejs"
 ]
 
 rules:
@@ -79,19 +78,12 @@ rules:
   space-before-function-paren: [1, "always"]
   space-infix-ops: 2
   space-unary-ops: [2, {words: true, nonwords: false}]
-  strict: [2, "global"]
+  strict: [0, "global"]
   yoda: [2, "never"]
-
-  requirejs/no-invalid-define: 2
-  requirejs/no-multiple-define: 2
-  requirejs/no-named-define: 2
-  requirejs/no-commonjs-wrapper: 2
-  requirejs/no-object-define: 1
 
   # Previously on by default in node environment
   no-catch-shadow: 0
   no-mixed-requires: 2
   no-new-require: 2
   no-path-concat: 2
-  global-strict: [0, "always"]
   handle-callback-err: [2, "err"]
