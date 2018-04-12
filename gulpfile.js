@@ -9,17 +9,22 @@ var gulp = require('gulp'),
 	 imagemin = require('gulp-imagemin'),
 	 cache = require('gulp-cache'),
 	 autoprefixer = require('gulp-autoprefixer'),
-	 notify = require("gulp-notify");
+	 notify = require("gulp-notify"),
+	 sourcemaps = require('gulp-sourcemaps');
+
 
 // Скрипты проекта
 gulp.task('scripts', function () {
 	return gulp.src([
 			'app/libs/cookies.js',
+			'js/hotels.js',
 			'js/hotels-list.js',
 			'js/main.js'
 		])
+		.pipe(sourcemaps.init())
 		.pipe(concat('scripts.min.js'))
 		.pipe(uglify())
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('app/js'))
 		.pipe(browserSync.reload({
 			stream: true
