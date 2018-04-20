@@ -1,11 +1,13 @@
-'use strict';
+"use strict";
 
 var container = document.querySelector( '.hotels-list' );
 var activeFilter = 'filter-all';
 var hotels = [];
 var filteredHotels = [];
+var renderedElements = [];
 var currentPage = 0;
 var PAGE_SIZE = 12;
+var gallery = new Gallery();
 
 
 var filters = document.querySelector( '.filters' );
@@ -43,7 +45,11 @@ getHotels();
  */
 function renderHotels ( hotelsToRender, pageNumber, replace ) {
   if ( replace ) {
-    container.innerHTML = '';
+    Array.prototype.forEach.call(renderedElements, function(element){
+      element.removeEventListener('click', _onClick);
+      container.removeChild(element);
+    });
+    
   }
   var fragment = document.createDocumentFragment();
   var from = pageNumber * PAGE_SIZE;
@@ -51,9 +57,17 @@ function renderHotels ( hotelsToRender, pageNumber, replace ) {
   var pageHotels = hotelsToRender.slice( from, to );
 
   pageHotels.forEach( function ( hotel ) {
+    /**
+     * @type  {Constructor}
+     */
     var hotelElement = new Hotel( hotel );
     hotelElement.render();
     fragment.appendChild( hotelElement.element );
+
+    hotelElement.onClick = function() {
+      gallery.data = hotelElement._data;
+      gallery.show();
+    }
   });
 
   container.appendChild( fragment );
@@ -81,7 +95,7 @@ function setActiveFilter ( id ) {
     case 'filter-2stars':
       break;
     case 'filter-all':
-      break;
+      return filteredHotels;
   }
 
   renderHotels( filteredHotels, 0, true );

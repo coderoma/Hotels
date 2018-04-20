@@ -40,14 +40,26 @@
     backgroundImage.onload = function () {
       clearTimeout( imageLoadTimeout );
       this.element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
-    };
+    }.bind(this);
+    
     backgroundImage.onerror = function () {
       this.element.classList.add( 'hotel--nophoto' );
-    };
+    }.bind(this);
 
     // start all this
     backgroundImage.src = this._data.preview ? this._data.preview : '';
+
+    this.element.addEventListener('click', function (evt) {
+      if (evt.target.classlist.contains('hotel') && 
+          !this.element.classlist.contains('hotel--nophoto')) {
+            if (typeof this.onClick === 'function') {
+              this.onClick();
+            }
+          }
+    }.bind(this));
   };
+
+  Hotel.prototype.onClick = null;
 
   window.Hotel = Hotel;
 }());
