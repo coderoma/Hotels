@@ -5,6 +5,7 @@
    */
   function Hotel( data ) {
     this._data = data;
+    this._onClick = this._onClick.bind(this);
   }
 
   Hotel.prototype.render = function () {
@@ -49,17 +50,28 @@
     // start all this
     backgroundImage.src = this._data.preview ? this._data.preview : '';
 
-    this.element.addEventListener('click', function (evt) {
-      if (evt.target.classlist.contains('hotel') && 
-          !this.element.classlist.contains('hotel--nophoto')) {
-            if (typeof this.onClick === 'function') {
-              this.onClick();
-            }
-          }
-    }.bind(this));
+    this.element.addEventListener('click', this._onClick);
   };
 
-  Hotel.prototype.onClick = null;
+
+  Hotel.prototype.remove = function () {
+    this.element.removeEventListener('click', this._onClick);
+  };
+  
+
+  /**
+   * @param  {Event} evt
+   * @private
+   */
+  Hotel.prototype._onClick = function ( evt ) {
+    // console.log(evt.target.classList);
+    if ( evt.target.classList.contains( 'hotel' ) &&
+      !this.element.classList.contains( 'hotel--nophoto' ) ) {
+      if ( typeof this.onClick === 'function' ) {
+        this.onClick();
+      }
+    }
+  };
 
   window.Hotel = Hotel;
 }());

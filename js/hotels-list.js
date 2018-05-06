@@ -32,8 +32,7 @@ window.addEventListener( 'scroll', function () {
       }
     }
   }, 100 );
-
-} );
+});
 
 getHotels();
 
@@ -45,18 +44,19 @@ getHotels();
  */
 function renderHotels ( hotelsToRender, pageNumber, replace ) {
   if ( replace ) {
-    Array.prototype.forEach.call(renderedElements, function(element){
-      element.removeEventListener('click', _onClick);
-      container.removeChild(element);
-    });
-    
+    var el;
+    while ((el = renderedElements.shift())) {
+      container.removeChild(el.element);
+      el.onClick = null;
+      el.remove();
+    }
   }
   var fragment = document.createDocumentFragment();
   var from = pageNumber * PAGE_SIZE;
   var to = from + PAGE_SIZE;
   var pageHotels = hotelsToRender.slice( from, to );
 
-  pageHotels.forEach( function ( hotel ) {
+  renderedElements = renderedElements.concat(pageHotels.map( function ( hotel ) {
     /**
      * @type  {Constructor}
      */
@@ -67,8 +67,10 @@ function renderHotels ( hotelsToRender, pageNumber, replace ) {
     hotelElement.onClick = function() {
       gallery.data = hotelElement._data;
       gallery.show();
-    }
-  });
+    };
+
+    return hotelElement;
+  }));
 
   container.appendChild( fragment );
 }
