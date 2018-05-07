@@ -33,8 +33,9 @@
 
     var imageLoadTimeout = setTimeout( function () { // fallback if image is cannot load
       backgroundImage.src = '';
+      console.log(this);
       this.element.classList.add( 'hotel--nophoto' ); // give element class with default background-image
-    }, IMAGE_TIMEOUT );
+    }.bind(this), IMAGE_TIMEOUT );
 
     // load and error handlers we set before changing .src attribute
  
