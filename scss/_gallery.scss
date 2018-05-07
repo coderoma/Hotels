@@ -7,9 +7,10 @@
   height: 100%;
 
   &__thumbnails {
-    padding: 10px;
+    height: 50px;
     img {
       margin: 5px;
+      align-self: center;
     }
 
     img.selected {
@@ -20,7 +21,20 @@
   &__controls {
     display: flex;
     justify-content: center;
+  }
 
+  &-control-right {
+    width: 30px;
+    height: 40px;
+    align-self: center;
+    background-color: white;
+  }
+
+  &-control-left {
+    width: 30px;
+    height: 40px;
+    align-self: center;
+    background-color: white;
   }
 
   &__preview {
