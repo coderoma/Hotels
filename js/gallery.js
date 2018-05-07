@@ -7,8 +7,10 @@
     this.element = document.querySelector( '.gallery-overlay' );
     this._closeButton = this.element.querySelector( '.gallery-overlay__close' );
     this._nextButton = this.element.querySelector( '.gallery-overlay-control-right' );
+    this._prevButton = this.element.querySelector( '.gallery-overlay-control-left' );
 
     this._onNextClick = this._onNextClick.bind( this );
+    this._onPrevClick = this._onPrevClick.bind( this );
     this._onCloseClick = this._onCloseClick.bind( this );
   };
 
@@ -29,6 +31,7 @@
 
 
     this._nextButton.addEventListener( 'click', this._onNextClick );
+    this._prevButton.addEventListener( 'click', this._onPrevClick );
 
     this._closeButton.addEventListener( 'click', this._onCloseClick );
 
@@ -47,7 +50,13 @@
     var count = this._currentImage;
     count++;
     this.setCurrentImage( count );
-  }
+  };
+
+  Gallery.prototype._onPrevClick = function () {
+    var count = this._currentImage;
+    count--;
+    this.setCurrentImage( count );
+  };
 
 
 
@@ -76,8 +85,6 @@
 
       previewContainer.appendChild( image );
     }
-
-
   };
 
   window.Gallery = Gallery;
