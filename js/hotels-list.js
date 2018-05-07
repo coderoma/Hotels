@@ -32,7 +32,7 @@ window.addEventListener( 'scroll', function () {
       }
     }
   }, 100 );
-});
+} );
 
 getHotels();
 
@@ -42,11 +42,11 @@ getHotels();
  * @param {number} pageNumber
  * @param {boolean=} replace
  */
-function renderHotels ( hotelsToRender, pageNumber, replace ) {
+function renderHotels( hotelsToRender, pageNumber, replace ) {
   if ( replace ) {
     var el;
-    while ((el = renderedElements.shift())) {
-      container.removeChild(el.element);
+    while ( ( el = renderedElements.shift() ) ) {
+      container.removeChild( el.element );
       el.onClick = null;
       el.remove();
     }
@@ -56,7 +56,7 @@ function renderHotels ( hotelsToRender, pageNumber, replace ) {
   var to = from + PAGE_SIZE;
   var pageHotels = hotelsToRender.slice( from, to );
 
-  renderedElements = renderedElements.concat(pageHotels.map( function ( hotel ) {
+  renderedElements = renderedElements.concat( pageHotels.map( function ( hotel ) {
     /**
      * @type  {Constructor}
      */
@@ -64,13 +64,13 @@ function renderHotels ( hotelsToRender, pageNumber, replace ) {
     hotelElement.render();
     fragment.appendChild( hotelElement.element );
 
-    hotelElement.onClick = function() {
+    hotelElement.onClick = function () {
       gallery.data = hotelElement._data;
       gallery.show();
     };
 
     return hotelElement;
-  }));
+  } ) );
 
   container.appendChild( fragment );
 }
@@ -79,25 +79,34 @@ function renderHotels ( hotelsToRender, pageNumber, replace ) {
  *
  * @param {string} id
  */
-function setActiveFilter ( id ) {
+function setActiveFilter( id ) {
   if ( activeFilter === id ) {
     return;
   }
 
   document.querySelector( '#' + activeFilter ).classList.remove( 'filters--selected' );
   document.querySelector( '#' + id ).classList.add( 'filters--selected' );
+
   activeFilter = id;
+
 
   switch ( activeFilter ) {
     case 'filter-expensive':
-      filteredHotels = filteredHotels.sort( function ( a, b ) {
+      filteredHotels = Array.prototype.slice.call(Hotels).sort( function ( a, b ) {
         return b.price - a.price;
+      } );
+      break;
+    case 'filter-cheap':
+      filteredHotels = Array.prototype.slice.call(Hotels).sort( function ( a, b ) {
+        return a.price - b.price;
       } );
       break;
     case 'filter-2stars':
       break;
     case 'filter-all':
-      return filteredHotels;
+      filteredHotels = Hotels;
+    case 'filter-6raiting':
+      break;
   }
 
   renderHotels( filteredHotels, 0, true );
@@ -109,7 +118,7 @@ function setActiveFilter ( id ) {
  * @param {string} URL
  * @param {boolean} async
  */
-function getHotels () {
+function getHotels() {
   var xhr = new XMLHttpRequest();
   xhr.open( 'GET', '../data/hotels.json' );
   xhr.timeout = 10000;
@@ -117,8 +126,8 @@ function getHotels () {
     var rawData = evt.target.response;
     var loadedHotels = JSON.parse( rawData );
     hotels = loadedHotels;
-    filteredHotels = hotels.slice( 0 );
-    renderHotels( filteredHotels, 0 );
+    Hotels = hotels.slice( 0 );
+    renderHotels( Hotels, 0 );
   };
   xhr.send();
 }
