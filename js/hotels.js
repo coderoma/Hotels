@@ -28,17 +28,15 @@
       rating.style.display = 'none';
     }
 
-    // prepare image
-    var backgroundImage = new Image(); // create image
 
+    // prepare image
+    var backgroundImage = new Image();
     var imageLoadTimeout = setTimeout( function () { // fallback if image is cannot load
       backgroundImage.src = '';
-      console.log(this);
-      this.element.classList.add( 'hotel--nophoto' ); // give element class with default background-image
+      this.element.classList.add( 'hotel--nophoto' );
     }.bind(this), IMAGE_TIMEOUT );
 
     // load and error handlers we set before changing .src attribute
- 
     backgroundImage.onload = function () {
       clearTimeout( imageLoadTimeout );
       this.element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
@@ -48,7 +46,6 @@
       this.element.classList.add( 'hotel--nophoto' );
     }.bind(this);
 
-    // start all this
     backgroundImage.src = this._data.preview ? this._data.preview : '';
 
     this.element.addEventListener('click', this._onClick);
@@ -65,7 +62,6 @@
    * @private
    */
   Hotel.prototype._onClick = function ( evt ) {
-    // console.log(evt.target.classList);
     if ( evt.target.classList.contains( 'hotel' ) &&
       !this.element.classList.contains( 'hotel--nophoto' ) ) {
       if ( typeof this.onClick === 'function' ) {
