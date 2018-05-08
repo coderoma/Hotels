@@ -1,12 +1,11 @@
 .filters {
     margin: auto auto;
     display: flex;
-    max-width: 800px;
-    justify-content: space-around;
+    justify-content: center;
     margin-bottom: 15px;
 
     &__button {
-
+        margin: 0 5px;
     }
 
     &--selected {
