@@ -5,6 +5,7 @@
    */
   var Gallery = function () {
     this.element = document.querySelector( '.gallery-overlay' );
+
     this._closeButton = this.element.querySelector( '.gallery-overlay__close' );
     this._nextButton = this.element.querySelector( '.gallery-overlay-control-right' );
     this._prevButton = this.element.querySelector( '.gallery-overlay-control-left' );
@@ -15,10 +16,16 @@
   };
 
 
+  
+  //gallery methods
   Gallery.prototype.show = function () {
     this.element.classList.remove( 'hidden' );
 
     var thumbnailsContainer = this.element.querySelector( '.gallery-overlay__thumbnails' );
+
+    while(thumbnailsContainer.firstChild) {
+      thumbnailsContainer.removeChild(thumbnailsContainer.firstChild);
+    }
 
     this.data.pictures.forEach( function ( pic, i ) {
       var picture = new Image();
@@ -28,11 +35,8 @@
     }, this );
 
     this.setCurrentImage( 0 );
-
-
     this._nextButton.addEventListener( 'click', this._onNextClick );
     this._prevButton.addEventListener( 'click', this._onPrevClick );
-
     this._closeButton.addEventListener( 'click', this._onCloseClick );
 
   };
@@ -59,7 +63,7 @@
   };
 
 
-
+  // show preview image
   Gallery.prototype.setCurrentImage = function ( i ) {
     if ( this._currentImage === i ) {
       return;
@@ -79,7 +83,6 @@
       var previewContainer = this.element.querySelector( '.gallery-overlay__preview' );
 
       while ( previewContainer.firstChild ) {
-        console.log( previewContainer.firstChild )
         previewContainer.removeChild( previewContainer.firstChild );
       }
 
