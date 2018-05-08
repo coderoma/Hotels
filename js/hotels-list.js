@@ -56,7 +56,7 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
   var to = from + PAGE_SIZE;
   var pageHotels = hotelsToRender.slice( from, to );
 
-  renderedElements = renderedElements.concat( pageHotels.map( function ( hotel ) {
+  renderedElements = pageHotels.map( function ( hotel ) {
     /**
      * @type  {Constructor}
      */
@@ -70,8 +70,9 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
     };
 
     return hotelElement;
-  } ) );
+  } ) ;
 
+  console.log(renderedElements);
   container.appendChild( fragment );
 }
 
@@ -102,13 +103,16 @@ function setActiveFilter( id ) {
       } );
       break;
     case 'filter-2stars':
+      filteredHotels = Hotels;
       break;
     case 'filter-all':
       filteredHotels = Hotels;
+      break;
     case 'filter-6raiting':
+      filteredHotels = Hotels;
       break;
   }
-
+  
   renderHotels( filteredHotels, 0, true );
 }
 
