@@ -1,13 +1,12 @@
 {
-  "name": "optimizedhtml",
+  "name": "Hotels",
   "version": "2.0.0",
-  "description": "OptimizedHTML - Start HTML Template",
-  "main": "index.js",
+  "description": "booking like",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
   },
-  "author": "WebDesign Master",
-  "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.18.5",
     "del": "^3.0.0",
