@@ -1,13 +1,18 @@
 (function () {
 /**
-   * @param {Object} data
    * @constructor
+   * @extends {HotelBase}
    */
-  function Hotel( data ) {
-    this._data = data;
+  function Hotel() {
     this._onClick = this._onClick.bind(this);
   }
 
+  Hotel.prototype = new HotelBase();
+
+  /**
+   * @param {Node=} container
+   * @override
+   */
   Hotel.prototype.render = function () {
     var template = document.querySelector( '#hotel-template' );
     var IMAGE_TIMEOUT = 10000;
@@ -19,11 +24,12 @@
     }
 
     var rating = this.element.querySelector( '.hotel__rating' );
-    this.element.querySelector( '.hotel__name' ).textContent = this._data.name;
-    this.element.querySelector( '.hotel__price-value' ).textContent = this._data.price;
 
-    if ( this._data.rating ) {
-      rating.textContent = this._data.rating;
+    this.element.querySelector( '.hotel__name' ).textContent = this.getData().name;
+    this.element.querySelector( '.hotel__price-value' ).textContent = this.getData().price;
+
+    if ( this.getData().rating ) {
+      rating.textContent = this.getData().rating;
     } else {
       rating.style.display = 'none';
     }
@@ -46,11 +52,10 @@
       this.element.classList.add( 'hotel--nophoto' );
     }.bind(this);
 
-    backgroundImage.src = this._data.preview ? this._data.preview : '';
+    backgroundImage.src = this.getData().preview ? this.getData().preview : '';
 
     this.element.addEventListener('click', this._onClick);
   };
-
 
   Hotel.prototype.remove = function () {
     this.element.removeEventListener('click', this._onClick);

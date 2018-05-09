@@ -18,6 +18,7 @@ var gulp = require( 'gulp' ),
 gulp.task( 'scripts', function () {
   return gulp.src( [
       'app/libs/cookies.js',
+      'js/hotel-base.js',
       'js/hotels.js',
       'js/gallery.js',
       'js/hotels-list.js',

@@ -2,6 +2,7 @@
 
   /**
    * @constructor
+   * @extends {HotelBase}
    */
   var Gallery = function () {
     this.element = document.querySelector( '.gallery-overlay' );
@@ -15,19 +16,19 @@
     this._onCloseClick = this._onCloseClick.bind( this );
   };
 
+  Gallery.prototype = new HotelBase();
 
-  
   //gallery methods
-  Gallery.prototype.show = function () {
+  Gallery.prototype.render = function () {
     this.element.classList.remove( 'hidden' );
 
     var thumbnailsContainer = this.element.querySelector( '.gallery-overlay__thumbnails' );
 
-    while(thumbnailsContainer.firstChild) {
-      thumbnailsContainer.removeChild(thumbnailsContainer.firstChild);
+    while ( thumbnailsContainer.firstChild ) {
+      thumbnailsContainer.removeChild( thumbnailsContainer.firstChild );
     }
 
-    this.data.pictures.forEach( function ( pic, i ) {
+    this.getData().pictures.forEach( function ( pic, i ) {
       var picture = new Image();
       picture.height = 40;
       picture.src = pic;
@@ -41,13 +42,15 @@
 
   };
 
-  Gallery.prototype.hide = function () {
+  Gallery.prototype.remove = function () {
     this.element.classList.add( 'hidden' );
     this._closeButton.removeEventListener( 'click', this._onCloseClick );
+    this._NextButton.removeEventListener( 'click', this._onNextClick );
+    this._PrevButton.removeEventListener( 'click', this._onPrevClick );
   };
 
   Gallery.prototype._onCloseClick = function () {
-    this.hide();
+    this.remove();
   };
 
   Gallery.prototype._onNextClick = function () {
@@ -66,7 +69,7 @@
   // show preview image
   Gallery.prototype.setCurrentImage = function ( i ) {
 
-    if ( this.data.pictures[ i ] ) {
+    if ( this.getData().pictures[ i ] ) {
       this._currentImage = i;
 
       if ( this.element.querySelector( 'img.selected' ) ) {
@@ -75,7 +78,7 @@
       this.element.querySelectorAll( '.gallery-overlay__thumbnails img' )[ i ].classList.add( 'selected' );
 
       var image = new Image();
-      image.src = this.data.pictures[ i ];
+      image.src = this.getData().pictures[ i ];
 
       var previewContainer = this.element.querySelector( '.gallery-overlay__preview' );
 
