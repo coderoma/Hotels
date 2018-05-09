@@ -11,7 +11,7 @@
   "price": 3200,
   "rating": 7.4,
   "stars": 3,
-  "preview": "img/hotel-1.jpg"
+  "preview": "https://cdn.ostrovok.ru/t/120x120/second2/1389653465/79bda8410bdb48c818bce415df6c3b4c.jpg"
   },
 
   {
@@ -26,7 +26,7 @@
   "price": 1700,
   "rating": 6.6,
   "stars": 2,
-  "preview": "img/hotel-2.jpg"
+  "preview": "https://cdn.ostrovok.ru/t/120x120/carsolize/images/hotels/b78be3e6-75c6-477a-bee6-d54f1a94858a.jpeg"
   },
 
   {
@@ -41,7 +41,7 @@
   "price": 3900,
   "rating": 8.6,
   "stars": 3,
-  "preview": "img/hotel-3.jpg"
+  "preview": "https://cdn.ostrovok.ru/t/120x120/second2/1389653465/79bda8410bdb48c818bce415df6c3b4c.jpg"
   },
 
   {
@@ -69,7 +69,7 @@
   "price": 3600,
   "rating": 7.7,
   "stars": 3,
-  "preview": "img/hotel-5.jpg"
+  "preview": "https://cdn.ostrovok.ru/t/120x120/mec/hotels/6000000/5320000/5318700/5318660/5318660_15_b.jpg"
   }, {
   "amenities": ["wifi", "parking", "breakfast"],
   "distance": 3.8,
@@ -82,7 +82,7 @@
   "price": 5000,
   "rating": 7.6,
   "stars": 3,
-  "preview": "img/hotel-6.jpg"
+  "preview": "https://cdn.ostrovok.ru/t/120x120/carsolize/images/hotels/89b2ba4b-1c68-4e65-abae-bf71c1dd8c3a.jpeg"
   }, {
   "amenities": [],
   "distance": 3.3,
