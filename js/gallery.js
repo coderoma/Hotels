@@ -65,9 +65,6 @@
 
   // show preview image
   Gallery.prototype.setCurrentImage = function ( i ) {
-    if ( this._currentImage === i ) {
-      return;
-    }
 
     if ( this.data.pictures[ i ] ) {
       this._currentImage = i;
