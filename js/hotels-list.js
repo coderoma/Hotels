@@ -67,7 +67,7 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
     fragment.appendChild( hotelElement.element );
 
     hotelElement.onClick = function () {
-      gallery.setData(hotelElement.getData());
+      gallery.setData( hotelElement.getData() );
       gallery.render();
     };
 
@@ -95,19 +95,30 @@ function setActiveFilter( id ) {
   switch ( activeFilter ) {
     case 'filter-expensive':
       filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
-        return b.price - a.price;
+        return b.getPrice() - a.getPrice();
       } );
       break;
     case 'filter-cheap':
       filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
-        return a.price - b.price;
+        return a.getPrice() - b.getPrice();
       } );
       break;
-    case 'filter-2stars':
-      break;
+      // case 'filter-2stars':
+      //   filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
+      //     return b.getStars() - a.getStars();
+      //   } ).filter( function ( item ) {
+      //     return item.getStars() >= 2;
+      //   } );
+      //   break;
     case 'filter-all':
+      filteredHotels = Hotels.slice( 0 );
       break;
     case 'filter-6raiting':
+      filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
+        return b.getRating() - a.getRating();
+      } ).filter( function ( item ) {
+        return item.getRating() >= 6;
+      } );
       break;
   }
 
@@ -127,6 +138,11 @@ function getHotels() {
   xhr.onload = function ( evt ) {
     var rawData = evt.target.response;
     var loadedHotels = JSON.parse( rawData );
+
+    loadedHotels = loadedHotels.map( function ( hotel ) {
+      return new HotelData( hotel );
+    } );
+
     hotels = loadedHotels;
     Hotels = hotels.slice( 0 );
     filteredHotels = Hotels;

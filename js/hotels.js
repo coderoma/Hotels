@@ -25,11 +25,11 @@
 
     var rating = this.element.querySelector( '.hotel__rating' );
 
-    this.element.querySelector( '.hotel__name' ).textContent = this.getData().name;
-    this.element.querySelector( '.hotel__price-value' ).textContent = this.getData().price;
+    this.element.querySelector( '.hotel__name' ).textContent = this.getData().getName();
+    this.element.querySelector( '.hotel__price-value' ).textContent = this.getData().getPrice();
 
-    if ( this.getData().rating ) {
-      rating.textContent = this.getData().rating;
+    if ( this.getData().getRating() ) {
+      rating.textContent = this.getData().getRating();
     } else {
       rating.style.display = 'none';
     }
@@ -52,7 +52,7 @@
       this.element.classList.add( 'hotel--nophoto' );
     }.bind(this);
 
-    backgroundImage.src = this.getData().preview ? this.getData().preview : '';
+    backgroundImage.src = this.getData().getPreview() ? this.getData().getPreview() : '';
 
     this.element.addEventListener('click', this._onClick);
   };

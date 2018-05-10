@@ -28,7 +28,7 @@
       thumbnailsContainer.removeChild( thumbnailsContainer.firstChild );
     }
 
-    this.getData().pictures.forEach( function ( pic, i ) {
+    this.getData().getPictures().forEach( function ( pic, i ) {
       var picture = new Image();
       picture.height = 40;
       picture.src = pic;
@@ -45,8 +45,8 @@
   Gallery.prototype.remove = function () {
     this.element.classList.add( 'hidden' );
     this._closeButton.removeEventListener( 'click', this._onCloseClick );
-    this._NextButton.removeEventListener( 'click', this._onNextClick );
-    this._PrevButton.removeEventListener( 'click', this._onPrevClick );
+    this._nextButton.removeEventListener( 'click', this._onNextClick );
+    this._prevButton.removeEventListener( 'click', this._onPrevClick );
   };
 
   Gallery.prototype._onCloseClick = function () {
@@ -69,7 +69,7 @@
   // show preview image
   Gallery.prototype.setCurrentImage = function ( i ) {
 
-    if ( this.getData().pictures[ i ] ) {
+    if ( this.getData().getPictures()[ i ] ) {
       this._currentImage = i;
 
       if ( this.element.querySelector( 'img.selected' ) ) {
@@ -78,7 +78,7 @@
       this.element.querySelectorAll( '.gallery-overlay__thumbnails img' )[ i ].classList.add( 'selected' );
 
       var image = new Image();
-      image.src = this.getData().pictures[ i ];
+      image.src = this.getData().getPictures()[ i ];
 
       var previewContainer = this.element.querySelector( '.gallery-overlay__preview' );
 
