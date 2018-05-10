@@ -14,6 +14,7 @@
     this._onNextClick = this._onNextClick.bind( this );
     this._onPrevClick = this._onPrevClick.bind( this );
     this._onCloseClick = this._onCloseClick.bind( this );
+    this._onESCKeyDown = this._onESCKeyDown.bind( this );
   };
 
   Gallery.prototype = new HotelBase();
@@ -30,12 +31,15 @@
 
     this.getData().getPictures().forEach( function ( pic, i ) {
       var picture = new Image();
+      picture.style.backgroundColor = 'black';
+      picture.width = 50;
       picture.height = 40;
       picture.src = pic;
       thumbnailsContainer.appendChild( picture );
     }, this );
 
     this.setCurrentImage( 0 );
+    window.onkeydown = this._onESCKeyDown;
     this._nextButton.addEventListener( 'click', this._onNextClick );
     this._prevButton.addEventListener( 'click', this._onPrevClick );
     this._closeButton.addEventListener( 'click', this._onCloseClick );
@@ -43,7 +47,8 @@
   };
 
   Gallery.prototype.remove = function () {
-    this.element.classList.add( 'hidden' );
+    window.onkeydown = null;
+    this.element.classList.add( 'hidden' );   
     this._closeButton.removeEventListener( 'click', this._onCloseClick );
     this._nextButton.removeEventListener( 'click', this._onNextClick );
     this._prevButton.removeEventListener( 'click', this._onPrevClick );
@@ -51,6 +56,12 @@
 
   Gallery.prototype._onCloseClick = function () {
     this.remove();
+  };
+
+  Gallery.prototype._onESCKeyDown = function (event) {
+    if (event.keyCode == '27') {
+        this.remove();
+    }    
   };
 
   Gallery.prototype._onNextClick = function () {
