@@ -1,7 +1,7 @@
 "use strict";
 
 var container = document.querySelector( '.hotels-list' );
-var activeFilter = 'filter-all';
+var activeFilter = localStorage.getItem('activeFilter') || 'filter-all';
 var hotels = [];
 var filteredHotels = [];
 var renderedElements = [];
@@ -9,13 +9,12 @@ var currentPage = 0;
 var PAGE_SIZE = 12;
 var gallery = new Gallery();
 
-
 var filters = document.querySelector( '.filters' );
 
-filters.addEventListener( 'click', function ( evt ) {
-  var clickedElement = evt.target;
-  if ( clickedElement.classList.contains( 'filters__button' ) ) {
-    setActiveFilter( clickedElement.id );
+
+filters.addEventListener( 'click', function ( event ) {
+  if ( event.target.classList.contains( 'filters__button' ) ) {
+    setActiveFilter(event.target.id );
   }
 } );
 
@@ -82,11 +81,7 @@ function renderHotels( hotelsToRender, pageNumber, replace ) {
  * @param {string} id
  */
 function setActiveFilter( id ) {
-  if ( activeFilter === id ) {
-    return;
-  }
-
-  document.querySelector( '#' + activeFilter ).classList.remove( 'filters--selected' );
+  document.querySelector('#' + activeFilter).classList.remove( 'filters--selected' );
   document.querySelector( '#' + id ).classList.add( 'filters--selected' );
 
   activeFilter = id;
@@ -103,15 +98,8 @@ function setActiveFilter( id ) {
         return a.getPrice() - b.getPrice();
       } );
       break;
-      // case 'filter-2stars':
-      //   filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
-      //     return b.getStars() - a.getStars();
-      //   } ).filter( function ( item ) {
-      //     return item.getStars() >= 2;
-      //   } );
-      //   break;
     case 'filter-all':
-      filteredHotels = Hotels.slice( 0 );
+      filteredHotels = Array.prototype.slice.call( Hotels );
       break;
     case 'filter-6raiting':
       filteredHotels = Array.prototype.slice.call( Hotels ).sort( function ( a, b ) {
@@ -121,6 +109,8 @@ function setActiveFilter( id ) {
       } );
       break;
   }
+
+  localStorage.setItem('activeFilter', id);
 
   renderHotels( filteredHotels, 0, true );
 }
@@ -143,10 +133,9 @@ function getHotels() {
       return new HotelData( hotel );
     } );
 
-    hotels = loadedHotels;
-    Hotels = hotels.slice( 0 );
+    Hotels = loadedHotels.slice( 0 );
     filteredHotels = Hotels;
-    renderHotels( Hotels, 0 );
+    setActiveFilter( activeFilter );
   };
   xhr.send();
 }
